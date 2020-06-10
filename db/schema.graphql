@@ -1,0 +1,28 @@
+"""
+The user that log in
+"""
+type User {
+  id: ID
+  name: String
+  lastName: String
+  email: String
+  create: String
+}
+
+"""
+The product to sell
+"""
+type Product {
+  id: ID
+  name: String
+  amount: Int
+  price: Float
+  code: String
+  create: String
+  restock: String
+}
+
+type Query {
+  #TEST
+  getTest: String
+}
