@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema({
     trim: true,
   },
   price: {
-    type: Float,
+    type: Number,
     require: true,
     trim: true,
   },
@@ -24,11 +24,15 @@ const ProductSchema = new mongoose.Schema({
   },
   create: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   restock: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
+  },
+  label: {
+    type: Array,
+    required: true,
   },
 });
 

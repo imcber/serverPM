@@ -22,7 +22,40 @@ type Product {
   restock: String
 }
 
+"""
+The sale data
+"""
+type Sale {
+  id: ID
+  products: [Product]
+  total: Float
+  date: String
+  user: User
+}
+
+"""
+The note object
+"""
+type Note {
+  id: ID
+  user: User
+  text: String
+  create: String
+}
+
+"""
+The order object
+"""
+type Order {
+  id: ID
+  products: [Product]
+  date: String
+  user: User
+  code: String
+}
+
 type Query {
   #TEST
   getTest: String
+  getProductID(id: ID!): Product
 }
