@@ -1,8 +1,9 @@
 import mongoose, { Mongoose, mongo } from "mongoose";
 import dotenv from "dotenv";
-import MongoDBInterface from "@accounts/mongo";
+import { Mongo } from "@accounts/mongo";
 import { AccountsServer } from "@accounts/server";
 import { AccountsPassword } from "@accounts/password";
+import pick from "object.pick";
 
 //Get env variables
 dotenv.config({ path: "variables.env" });
@@ -14,16 +15,13 @@ mongoose.connect(process.env.DB_MONGO, {
 });
 console.log("DB Connect");
 //Tell account-js to use mongo connection
-const accountsMongo = new MongoDBInterface(mongoose.connection);
+const accountsMongo = new Mongo(mongoose.connection);
 
 const accountsPassword = new AccountsPassword({
-  validateNewUser: (user) => {
+  validateNewUser: async (user) => {
     console.log(user);
 
-    if (user.profile.firstName.length < 2) {
-      throw new Error("First name too short");
-    }
-    return user;
+    return pick(user, ["email", "password", "profile"]);
   },
 });
 

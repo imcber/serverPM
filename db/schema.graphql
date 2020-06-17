@@ -2,6 +2,10 @@
 The user that log in
 """
 type User {
+  profile: Profile
+}
+
+type Profile {
   name: String
   lastName: String
   type: TypeUser
@@ -61,12 +65,10 @@ type Order {
 Input User
 """
 input CreateUserInput {
-  name: String!
-  lastName: String!
-  type: TypeUser!
+  profile: ProfileInput!
 }
 
-input UserInput {
+input ProfileInput {
   name: String!
   lastName: String!
   type: TypeUser!
