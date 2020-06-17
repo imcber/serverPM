@@ -2,11 +2,14 @@
 The user that log in
 """
 type User {
-  id: ID
   name: String
   lastName: String
-  email: String
-  create: String
+  type: TypeUser
+}
+
+enum TypeUser {
+  ADMIN
+  EMPLOYEE
 }
 
 """
@@ -54,8 +57,28 @@ type Order {
   code: String
 }
 
+"""
+Input User
+"""
+input CreateUserInput {
+  name: String!
+  lastName: String!
+  type: TypeUser!
+}
+
+input UserInput {
+  name: String!
+  lastName: String!
+  type: TypeUser!
+}
+
+type Mutation {
+  test: String
+}
+
 type Query {
-  #TEST
-  getTest: String
+  #Get product by ID
   getProductID(id: ID!): Product
+  #Get all the products
+  getListProducts: [Product]
 }

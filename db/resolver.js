@@ -1,17 +1,7 @@
-import { User } from "../models/User";
-import { Product } from "../models/Product";
+import { Mutation } from "./resolvers/Mutation";
+import { Query } from "./resolvers/Query";
 
 export const resolvers = {
-  Query: {
-    getTest: () => {
-      console.log("TEST!");
-
-      return "Quiobo!";
-    },
-    getProductID: (_, { id }) => {
-      const product = Product.findById(id);
-      if (!product) throw new Error("Producto no encontrado");
-      return product;
-    },
-  },
+  Query,
+  Mutation,
 };

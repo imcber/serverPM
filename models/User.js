@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  email: {
+  emails: {
     type: String,
     required: true,
     trim: true,
@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  type: {
+    type: String,
+    required: true,
   },
   create: {
     type: Date,
