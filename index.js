@@ -18,11 +18,12 @@ const schema = makeExecutableSchema({
   schemaDirectives: { ...accountsGraphQL.schemaDirectives },
 });
 
-server.applyMiddleware({ app });
 const server = new ApolloServer({
   schema,
   context: accountsGraphQL.context,
 });
+
+server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () => {
   console.log(
