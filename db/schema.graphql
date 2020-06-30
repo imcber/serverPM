@@ -27,6 +27,7 @@ type Product {
   code: String
   create: String
   restock: String
+  labels: [String]
 }
 
 """
@@ -74,8 +75,24 @@ input ProfileInput {
   type: TypeUser!
 }
 
+"""
+Input of product
+"""
+input ProductInput {
+  name: String!
+  amount: Int!
+  price: Float!
+  code: String
+  labels: [String]
+}
+
 type Mutation {
-  test: String
+  #New product
+  newProduct(input: ProductInput): Product
+  #Edit product
+  editProduct(id: ID!, input: ProductInput): Product
+  #Delete product
+  deleteProduct(id: ID!): String
 }
 
 type Query {

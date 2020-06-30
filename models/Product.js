@@ -4,23 +4,23 @@ import mongoose from "mongoose";
 const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
   },
   amount: {
     type: String,
-    require: true,
+    required: true,
     trim: true,
   },
   price: {
     type: Number,
-    require: true,
+    required: true,
     trim: true,
   },
   code: {
     type: String,
-    require: true,
     trim: true,
+    required: true,
   },
   create: {
     type: Date,
@@ -30,9 +30,9 @@ const ProductSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  label: {
+  labels: {
     type: Array,
-    required: true,
+    default: [],
   },
 });
 
