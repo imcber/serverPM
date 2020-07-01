@@ -31,11 +31,21 @@ type Product {
 }
 
 """
+The Product sale
+"""
+type SaleProduct {
+  id: ID
+  amount: Int
+  name: String
+  price: Float
+}
+
+"""
 The sale data
 """
 type Sale {
   id: ID
-  products: [Product]
+  products: [SaleProduct]
   total: Float
   date: String
   user: User
@@ -86,6 +96,25 @@ input ProductInput {
   labels: [String]
 }
 
+"""
+Sale product input
+"""
+input SaleProductInput {
+  id: ID!
+  amount: Int!
+  name: String!
+  price: Float!
+}
+
+"""
+Input of Sale
+"""
+input SaleInput {
+  products: [SaleProductInput]
+  total: Float
+  user: ID!
+}
+
 type Mutation {
   #New product
   newProduct(input: ProductInput): Product
@@ -93,6 +122,8 @@ type Mutation {
   editProduct(id: ID!, input: ProductInput): Product
   #Delete product
   deleteProduct(id: ID!): String
+  #New Sale
+  newSale(input: SaleInput): Sale
 }
 
 type Query {
@@ -100,4 +131,8 @@ type Query {
   getProductID(id: ID!): Product
   #Get all the products
   getListProducts: [Product]
+  #Get Sale by ID
+  getSaleID(id: ID!): Sale
+  #Get all Sales
+  getSales: [Sale]
 }

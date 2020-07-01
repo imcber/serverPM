@@ -1,4 +1,5 @@
 import { Product } from "../../models/Product";
+import { Sale } from "../../models/Sale";
 
 const Mutation = {
   //Add new product
@@ -33,6 +34,15 @@ const Mutation = {
     //remove product
     await Product.findOneAndDelete({ _id: id });
     return "Product removed";
+  },
+  newSale: async (_, { input }) => {
+    //add new Sale
+    try {
+      const newSale = new Sale(input);
+      return await newSale.save();
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
