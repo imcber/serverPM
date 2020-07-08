@@ -1,5 +1,6 @@
 import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
+import { Order } from "../../models/Order";
 
 const Mutation = {
   //Add new product
@@ -43,6 +44,20 @@ const Mutation = {
     } catch (error) {
       console.log(error);
     }
+  },
+  newOrder: async (_, { input }) => {
+    try {
+      const newOrder = new Order(input);
+      return await newOrder.save();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  editOrder: async (_, { id, input }) => {
+    let order = await Order.findById(id);
+    if (!order) throw new Error("Order does not exists");
+    order = await Order.findOneAndUpdate({ _id: id }, input, { new: true });
+    return order;
   },
 };
 
