@@ -1,6 +1,7 @@
 import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
 import { Order } from "../../models/Order";
+import { Note } from "../../models/Note";
 
 const Mutation = {
   //Add new product
@@ -39,7 +40,7 @@ const Mutation = {
   newSale: async (_, { input }) => {
     //add new Sale
     try {
-      const newSale = new Sale(input);
+      const newSale = await new Sale(input);
       return await newSale.save();
     } catch (error) {
       console.log(error);
@@ -47,7 +48,7 @@ const Mutation = {
   },
   newOrder: async (_, { input }) => {
     try {
-      const newOrder = new Order(input);
+      const newOrder = await new Order(input);
       return await newOrder.save();
     } catch (error) {
       console.log(error);
@@ -58,6 +59,28 @@ const Mutation = {
     if (!order) throw new Error("Order does not exists");
     order = await Order.findOneAndUpdate({ _id: id }, input, { new: true });
     return order;
+  },
+  newNote: async (_, { input }) => {
+    try {
+      const newNote = await new Note(input);
+      return await newNote.save();
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteNote: async (_, { id }) => {
+    //search the Note
+    const note = await Note.findById(id);
+    if (!note) throw new error("Note does not exist");
+    //remove Note
+    await Note.findOneAndDelete({ _id: id });
+    return "Note removed";
+  },
+  editNote: async (_, { id, input }) => {
+    let note = await Note.findById(id);
+    if (!note) throw new Error("Note does not exists");
+    note = await Note.findOneAndUpdate({ _id: id }, input, { new: true });
+    return note;
   },
 };
 

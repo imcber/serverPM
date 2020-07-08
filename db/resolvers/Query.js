@@ -22,14 +22,31 @@ const Query = {
     const sales = Sale.find();
     return sales;
   },
-  getOrders: () => {
-    const orders = Order.find();
+  getOrders: async () => {
+    let orders = await Order.find();
+    if (!orders) throw new Error("No hay pedidos");
+
+    orders = orders.map(async (item) => {
+      return await item
+        .populate({
+          path: "products",
+          populate: "product",
+        })
+        .execPopulate();
+    });
+
     return orders;
   },
-  getOrderID: (_, { id }) => {
-    const order = Order.findById(id);
+  getOrderID: async (_, { id }) => {
+    const order = await Order.findById(id);
     if (!order) throw new Error("El pedido no existe");
-    return orders;
+    await order
+      .populate({
+        path: "products",
+        populate: "product",
+      })
+      .execPopulate();
+    return order;
   },
   getNotes: () => {
     const notes = Note.find();

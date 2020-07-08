@@ -1,10 +1,18 @@
 import mongoose from "mongoose";
 
-const OrderSchema = new mongoose.Schema({
-  products: {
-    type: Array,
-    required: true,
+const ProductSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Product",
   },
+  amount: {
+    type: String,
+    trim: true,
+  },
+});
+
+const OrderSchema = new mongoose.Schema({
+  products: [ProductSchema],
   date: {
     type: Date,
     default: Date.now(),
@@ -12,10 +20,6 @@ const OrderSchema = new mongoose.Schema({
   user: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
-  },
-  code: {
-    type: String,
-    required: true,
   },
 });
 
