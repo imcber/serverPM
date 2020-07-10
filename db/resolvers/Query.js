@@ -2,6 +2,8 @@ import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
 import { Order } from "../../models/Order";
 import { Note } from "../../models/Note";
+import AccountsServer from "@accounts/server";
+import { authenticated } from "@accounts/graphql-api";
 
 const Query = {
   getProductID: (_, { id }) => {
@@ -37,7 +39,9 @@ const Query = {
 
     return orders;
   },
-  getOrderID: async (_, { id }) => {
+  getOrderID: async (_, { id }, context) => {
+    console.log(context);
+
     const order = await Order.findById(id);
     if (!order) throw new Error("El pedido no existe");
     await order

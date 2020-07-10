@@ -20,7 +20,7 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
-  context: accountsGraphQL.context,
+  context: async (req) => ({ ...(await accountsGraphQL.context(req)) }),
 });
 
 server.applyMiddleware({ app });

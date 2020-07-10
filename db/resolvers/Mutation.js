@@ -2,6 +2,7 @@ import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
 import { Order } from "../../models/Order";
 import { Note } from "../../models/Note";
+import { authenticated } from "@accounts/graphql-api";
 
 const Mutation = {
   //Add new product
@@ -37,37 +38,43 @@ const Mutation = {
     await Product.findOneAndDelete({ _id: id });
     return "Product removed";
   },
-  newSale: async (_, { input }) => {
+  newSale: authenticated((rootValues, { input }, context) => {
     //add new Sale
+    const { user } = context;
     try {
-      const newSale = await new Sale(input);
-      return await newSale.save();
+      const newSale = new Sale(input);
+      newSale.user = user.id;
+      return newSale.save();
     } catch (error) {
       console.log(error);
     }
-  },
-  newOrder: async (_, { input }) => {
+  }),
+  newOrder: authenticated((rootValues, { input }, context) => {
+    const { user } = context;
     try {
-      const newOrder = await new Order(input);
-      return await newOrder.save();
+      const newOrder = new Order(input);
+      newOrder.user = user.id;
+      return newOrder.save();
     } catch (error) {
       console.log(error);
     }
-  },
+  }),
   editOrder: async (_, { id, input }) => {
     let order = await Order.findById(id);
     if (!order) throw new Error("Order does not exists");
     order = await Order.findOneAndUpdate({ _id: id }, input, { new: true });
     return order;
   },
-  newNote: async (_, { input }) => {
+  newNote: authenticated((rootValues, { input }, context) => {
+    const { user } = context;
     try {
-      const newNote = await new Note(input);
-      return await newNote.save();
+      const newNote = new Note(input);
+      newNote.user = user.id;
+      return newNote.save();
     } catch (error) {
       console.log(error);
     }
-  },
+  }),
   deleteNote: async (_, { id }) => {
     //search the Note
     const note = await Note.findById(id);
