@@ -67,5 +67,17 @@ const Query = {
     if (!notes) throw new Error("Sin notas");
     return notes;
   },
+  getLessProducts: async () => {
+    const products = await Product.aggregate([
+      {
+        $match: { amount: { $lte: 15 } },
+      },
+      { $limit: 5 },
+    ]);
+
+    return products.map((item) => {
+      return { ...item, id: item._id };
+    });
+  },
 };
 export { Query };

@@ -177,4 +177,6 @@ type Query {
   getNotesByUser(id: ID): [Note]
   #Get Note by ID
   getNoteID(id: ID): Note
+  #Get products less amount
+  getLessProducts: [Product]
 }
