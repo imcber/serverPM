@@ -178,5 +178,9 @@ type Query {
   #Get Note by ID
   getNoteID(id: ID): Note
   #Get products less amount
-  getLessProducts: [Product]
+  getLessProducts(page: Int): [Product]
+  #Get number of less produts
+  getNumLessProducts: Int
+  #Get last sales
+  getLastSales: [Sale]
 }

@@ -5,6 +5,8 @@ import { Note } from "../../models/Note";
 import AccountsServer from "@accounts/server";
 import { authenticated } from "@accounts/graphql-api";
 
+const NUM_PAGINATION = 5;
+
 const Query = {
   getProductID: (_, { id }) => {
     const product = Product.findById(id);
@@ -67,17 +69,31 @@ const Query = {
     if (!notes) throw new Error("Sin notas");
     return notes;
   },
-  getLessProducts: async () => {
+  getLessProducts: async (_, { page }) => {
+    const indxPag = page ? (page - 1) * NUM_PAGINATION : 0;
     const products = await Product.aggregate([
       {
         $match: { amount: { $lte: 15 } },
       },
-      { $limit: 5 },
+      { $skip: indxPag },
+      { $limit: NUM_PAGINATION },
     ]);
-
     return products.map((item) => {
       return { ...item, id: item._id };
     });
+  },
+  getNumLessProducts: async () => {
+    const products = await Product.aggregate([
+      {
+        $match: { amount: { $lte: 15 } },
+      },
+    ]);
+
+    return Math.ceil(products.length / NUM_PAGINATION);
+  },
+  getLastSales: () => {
+    const sales = Sale.find().sort({ _id: -1 }).limit(5);
+    return sales;
   },
 };
 export { Query };
