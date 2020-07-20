@@ -92,7 +92,7 @@ const Query = {
     return Math.ceil(products.length / NUM_PAGINATION);
   },
   getLastSales: () => {
-    const sales = Sale.find().sort({ _id: -1 }).limit(5);
+    const sales = Sale.find().sort({ _id: -1 }).limit(4);
     return sales;
   },
 };

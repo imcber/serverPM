@@ -14,7 +14,7 @@ const SaleSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now(),
+    default: new Date(Date.now()),
   },
   user: {
     type: mongoose.SchemaTypes.ObjectId,
