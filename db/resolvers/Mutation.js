@@ -2,12 +2,13 @@ import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
 import { Order } from "../../models/Order";
 import { Note } from "../../models/Note";
+import { Category } from "../../models/Category";
 import { authenticated } from "@accounts/graphql-api";
 
 const Mutation = {
   //Add new product
   newProduct: async (_, { input }) => {
-    const { code } = input;
+    const { code, labels } = input;
     //search if product exists
     const product = await Product.findOne({ code });
     if (product) throw new Error("Product exists already");
@@ -15,6 +16,15 @@ const Mutation = {
     try {
       //add new product
       const newProduct = new Product(input);
+      //add new categories
+      labels.map(async (name) => {
+        const category = await Category.findOne({ name });
+        console.log(category);
+        if (!category) {
+          const newCat = await new Category({ name });
+          newCat.save();
+        }
+      });
       return await newProduct.save();
     } catch (error) {
       console.log(error);
@@ -38,7 +48,7 @@ const Mutation = {
     await Product.findOneAndDelete({ _id: id });
     return "Product removed";
   },
-  newSale: authenticated((rootValues, { input }, context) => {
+  newSale: authenticated((_, { input }, context) => {
     //add new Sale
     const { user } = context;
     try {
@@ -49,7 +59,7 @@ const Mutation = {
       console.log(error);
     }
   }),
-  newOrder: authenticated((rootValues, { input }, context) => {
+  newOrder: authenticated((_, { input }, context) => {
     const { user } = context;
     try {
       const newOrder = new Order(input);
@@ -65,7 +75,7 @@ const Mutation = {
     order = await Order.findOneAndUpdate({ _id: id }, input, { new: true });
     return order;
   },
-  newNote: authenticated((rootValues, { input }, context) => {
+  newNote: authenticated((_, { input }, context) => {
     const { user } = context;
     try {
       const newNote = new Note(input);
@@ -88,6 +98,18 @@ const Mutation = {
     if (!note) throw new Error("Note does not exists");
     note = await Note.findOneAndUpdate({ _id: id }, input, { new: true });
     return note;
+  },
+  newCategory: async (_, { input }) => {
+    const { name } = input;
+    let category = await Category.find({ name });
+    if (category) throw new Error("Category exists already");
+    try {
+      //add new category
+      const newCategory = new Category(input);
+      return await newCategory.save();
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

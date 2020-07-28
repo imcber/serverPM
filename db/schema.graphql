@@ -77,6 +77,14 @@ type ProductOrder {
 }
 
 """
+The Category object
+"""
+type Category {
+  id: ID
+  name: String
+}
+
+"""
 Input User
 """
 input CreateUserInput {
@@ -137,6 +145,13 @@ input NoteInput {
   text: String
 }
 
+"""
+Input of category
+"""
+input CategoryInput {
+  name: String
+}
+
 type Mutation {
   #New product
   newProduct(input: ProductInput): Product
@@ -156,6 +171,8 @@ type Mutation {
   deleteNote(id: ID): String
   #Edit Note
   editNote(id: ID, input: NoteInput): Note
+  #New Category
+  newCategory(input: CategoryInput): Category
 }
 
 type Query {
@@ -183,4 +200,6 @@ type Query {
   getNumLessProducts: Int
   #Get last sales
   getLastSales: [Sale]
+  #getCategories
+  getCategories: [Category]
 }

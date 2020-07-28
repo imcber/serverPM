@@ -2,8 +2,7 @@ import { Product } from "../../models/Product";
 import { Sale } from "../../models/Sale";
 import { Order } from "../../models/Order";
 import { Note } from "../../models/Note";
-import AccountsServer from "@accounts/server";
-import { authenticated } from "@accounts/graphql-api";
+import { Category } from "../../models/Category";
 
 const NUM_PAGINATION = 5;
 
@@ -94,6 +93,10 @@ const Query = {
   getLastSales: () => {
     const sales = Sale.find().sort({ _id: -1 }).limit(4);
     return sales;
+  },
+  getCategories: () => {
+    const categories = Category.find();
+    return categories;
   },
 };
 export { Query };
