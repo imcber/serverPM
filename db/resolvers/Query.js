@@ -13,7 +13,7 @@ const Query = {
     return product;
   },
   getListProducts: () => {
-    const products = Product.find({});
+    const products = Product.find().limit(15);
     return products;
   },
   getSaleID: (_, { id }) => {
