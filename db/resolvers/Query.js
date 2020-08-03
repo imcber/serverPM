@@ -12,9 +12,19 @@ const Query = {
     if (!product) throw new Error("Producto no encontrado");
     return product;
   },
-  getListProducts: () => {
-    const products = Product.find().limit(15);
-    return products;
+  getListProducts: async (_, { page, numRegister }) => {
+    const indxPag = page ? (page - 1) * numRegister : 0;
+    const products = await Product.aggregate([
+      { $skip: indxPag },
+      { $limit: numRegister },
+    ]);
+    return products.map((item) => {
+      return { ...item, id: item._id };
+    });
+  },
+  getCountProducts: async (_, { numRegister }) => {
+    const products = await Product.find();
+    return Math.ceil(products.length / numRegister);
   },
   getSaleID: (_, { id }) => {
     const sale = Sale.findById(id);

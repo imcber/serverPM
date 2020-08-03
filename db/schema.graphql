@@ -179,7 +179,7 @@ type Query {
   #Get product by ID
   getProductID(id: ID!): Product
   #Get all the products
-  getListProducts: [Product]
+  getListProducts(page: Int, numRegister: Int): [Product]
   #Get Sale by ID
   getSaleID(id: ID!): Sale
   #Get all Sales
@@ -202,4 +202,6 @@ type Query {
   getLastSales: [Sale]
   #getCategories
   getCategories: [Category]
+  #get count of Products
+  getCountProducts(numRegister: Int): Int
 }
